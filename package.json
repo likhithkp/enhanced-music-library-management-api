@@ -1,0 +1,35 @@
+{
+  "name": "enhanced-music-library-management-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "migrate": "sequelize db:migrate",
+    "migrate:single": "sequelize db:migrate --name ${FILE_NAME}",
+    "win-migrate:single": "sequelize db:migrate --name",
+    "migrate:undo": "sequelize db:migrate:undo",
+    "migrate:undo:single": "sequelize db:migrate:undo --name ${FILE_NAME}",
+    "win-migrate:undo:single": "sequelize db:migrate:undo --name",
+    "seed": "sequelize db:seed:all",
+    "seed:undo:single": "sequelize db:seed:undo --seed [${FILE_NAME}]",
+    "win-seed:undo:single": "sequelize db:seed:undo --seed",
+    "seed:undo:all": "sequelize db:seed:undo:all",
+    "create-migration": "sequelize migration:create --name ${FILE_NAME}",
+    "win-create-migration": "sequelize migration:create --name",
+    "create-seeder": "sequelize seed:create --name ${FILE_NAME}"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "json-web-token": "^3.2.0",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "sequelize-cli": "^6.6.2"
+  }
+}
