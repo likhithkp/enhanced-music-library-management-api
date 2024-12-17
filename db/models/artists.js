@@ -2,6 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const Artists = sequelize.define('artists', {
         artist_id: {
             type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
             allowNull: false,
         },
@@ -23,5 +24,11 @@ module.exports = (sequelize, DataTypes) => {
         createdAt: 'created_at',
         updatedAt: 'updated_at',
     });
+
+    Artists.prototype.setAssociation = (models) => {
+        Artists.hasMany(models.Albums, { foreignKey: 'artist_id' });
+        Artists.hasMany(models.Tracks, { foreignKey: 'artist_id' });
+    };
+
     return Artists;
 };

@@ -3,6 +3,7 @@ module.exports = {
     await queryInterface.createTable('artists', {
       artist_id: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4, // Auto-generate UUID
         primaryKey: true,
         allowNull: false,
       },
@@ -19,10 +20,16 @@ module.exports = {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
-    }, {
-      timestamps: true,
-      createdAt: 'created_at',
-      updatedAt: 'updated_at',
+      created_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
+      updated_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      }
     })
   },
 

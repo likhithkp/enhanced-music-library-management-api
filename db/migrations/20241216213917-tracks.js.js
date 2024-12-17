@@ -1,24 +1,31 @@
 module.exports = {
   async up(queryInterface, DataTypes) {
-    await queryInterface.createTable('users', {
-      user_id: {
+    await queryInterface.createTable('tracks', {
+      track_id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4, // Auto-generate UUID
         primaryKey: true,
         allowNull: false,
       },
-      email: {
+      album_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'albums',  // Reference to the albums model
+          key: 'album_id',       // The primary key in albums
+        },
+        allowNull: false,
+      },
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
-      password: {
-        type: DataTypes.STRING,
+      duration: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true,
       },
-      role: {
-        type: DataTypes.ENUM('admin', 'editor', 'viewer'),
+      hidden: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
       },
       created_at: {
@@ -31,10 +38,10 @@ module.exports = {
         allowNull: false,
         defaultValue: DataTypes.NOW,
       }
-    })
+    });
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('tracks');
   },
 };

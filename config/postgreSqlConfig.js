@@ -2,8 +2,12 @@ require("dotenv").config();
 
 module.exports = {
   "development": {
-    "url": process.env.DATABASE_URL,
+    "username": "postgres.evzmohnwswlryyucnbsw",
+    "password": "enhanced-music-library-management-api",
+    "database": "postgres",
+    "host": "aws-0-us-east-1.pooler.supabase.com",
     "dialect": "postgres",
+    "pool_mode": "transaction"
   },
   "test": {
     "username": "root",
@@ -13,7 +17,11 @@ module.exports = {
     "dialect": "postgres"
   },
   "production": {
-    "url": process.env.DATABASE_URL,
+    "username": "postgres.evzmohnwswlryyucnbsw",
+    "password": "enhanced-music-library-management-api",
+    "database": "postgres",
+    "host": "aws-0-us-east-1.pooler.supabase.com",
     "dialect": "postgres",
+    "pool_mode": "transaction"
   }
 };

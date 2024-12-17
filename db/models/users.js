@@ -2,6 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const Users = sequelize.define('users', {
       user_id: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
       },
@@ -16,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       }, 
       role: {
-        type: DataTypes.ENUM('Admin', 'Editor', 'Viewer'),
+        type: DataTypes.ENUM('admin', 'editor', 'viewer'),
         allowNull: false,
         unique: true,
       },
