@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,
         },
         grammy: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         hidden: {
@@ -25,9 +25,9 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: 'updated_at',
     });
 
-    Artists.prototype.setAssociation = (models) => {
-        Artists.hasMany(models.Albums, { foreignKey: 'artist_id' });
-        Artists.hasMany(models.Tracks, { foreignKey: 'artist_id' });
+    Artists.associate = (models) => {
+        Artists.hasMany(models.albums, { foreignKey: 'artist_id', targetKey: 'artist_id' });
+        Artists.hasMany(models.tracks, { foreignKey: 'artist_id', targetKey: 'artist_id' });
     };
 
     return Artists;

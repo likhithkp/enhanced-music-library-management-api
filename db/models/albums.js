@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
         artist_id: {
             type: DataTypes.UUID,
             references: {
-                model: 'artists',  // Reference to the artists model
-                key: 'artist_id',       // The primary key in artists
+                model: 'artists',
+                key: 'artist_id',
             },
             allowNull: false,
         },
@@ -33,10 +33,10 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: 'updated_at',
     });
 
-    Albums.prototype.setAssociation = (models) => {
-        Albums.hasMany(models.Tracks, { foreignKey: 'track_id' });
-        Albums.belongsTo(models.Artists, { foreignKey: "artist_id" })
-    }
+    Albums.associate = (models) => {
+        Albums.belongsTo(models.artists, { foreignKey: 'artist_id', targetKey: 'artist_id' });
+        Albums.hasMany(models.tracks, { foreignKey: 'album_id', targetKey: 'album_id' });
+    };
 
     return Albums;
 };

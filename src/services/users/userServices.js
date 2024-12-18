@@ -36,9 +36,20 @@ async function getUser(data) {
     }
 }
 
+async function updateUserPassword({ user_id, new_password }) {
+    try {
+        return await models.users.update(
+            { password: new_password },
+            { where: { user_id } });
+    } catch (error) {
+        throw new Error("Error updating password", error.message);
+    }
+}
+
 module.exports = {
     signup,
     getAllUsers,
     getUser,
-    deleteUserById
+    deleteUserById,
+    updateUserPassword
 }

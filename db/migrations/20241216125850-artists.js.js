@@ -13,7 +13,7 @@ module.exports = {
         unique: true,
       },
       grammy: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       hidden: {
