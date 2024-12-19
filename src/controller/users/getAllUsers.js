@@ -11,7 +11,7 @@ const fetchAllUsers = async (_, res) => {
         })
     }
     catch (error) {
-        throw new Error(error)
+        res.status(500).json({ error: "Error fetching users", details: error?.message });
     }
 }
 

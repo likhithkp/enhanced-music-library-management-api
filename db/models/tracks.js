@@ -14,6 +14,14 @@ module.exports = (sequelize, DataTypes) => {
             },
             allowNull: false,
         },
+        artist_id: {
+            type: DataTypes.UUID,
+            references: {
+                model: 'artists',  // Reference to the artists model
+                key: 'artist_id',       // The primary key in artists
+            },
+            allowNull: false,
+        },
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -33,8 +41,23 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: 'updated_at',
     });
 
-    Tracks.prototype.setAssociation = (models) => {
-        Tracks.belongsTo(models.Albums, { foreignKey: "album_id" })
+    Tracks.associate = (models) => {
+        Tracks.belongsTo(models.albums, {
+            foreignKey: "album_id",
+            targetKey: "album_id",
+            onDelete: 'CASCADE',
+        }),
+        Tracks.belongsTo(models.artists, {
+            foreignKey: "artist_id",
+            targetKey: "artist_id",
+            onDelete: 'CASCADE',
+        }),
+        Tracks.hasMany(models.favourites, {
+            foreignKey: 'item_id',
+            constraints: false,
+            scope: { category: 'track' },
+            as: 'favourites',
+        });
     };
 
     return Tracks;

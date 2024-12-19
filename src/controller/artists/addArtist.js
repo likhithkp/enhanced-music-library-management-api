@@ -36,7 +36,7 @@ const addArtist = async (req, res) => {
             });
         }
     } catch (error) {
-        throw new Error("Error creating user");
+        res.status(500).json({ error: "Error creating artist", details: error?.message });
     }
 };
 

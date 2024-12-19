@@ -34,8 +34,22 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Albums.associate = (models) => {
-        Albums.belongsTo(models.artists, { foreignKey: 'artist_id', targetKey: 'artist_id' });
-        Albums.hasMany(models.tracks, { foreignKey: 'album_id', targetKey: 'album_id' });
+        Albums.belongsTo(models.artists, {
+            foreignKey: 'artist_id',
+            targetKey: 'artist_id',
+            onDelete: 'CASCADE'
+        });
+        Albums.hasMany(models.tracks, {
+            foreignKey: 'album_id',
+            targetKey: 'album_id',
+            onDelete: 'CASCADE'
+        });
+        Albums.hasMany(models.favourites, {
+            foreignKey: 'item_id',
+            constraints: false,
+            scope: { category: 'album' },
+            as: 'favourites',
+        });
     };
 
     return Albums;

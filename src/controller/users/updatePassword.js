@@ -3,7 +3,7 @@ const { updateUserPassword, getUser } = require("../../services/users/userServic
 const updatePassword = async (req, res) => {
     try {
         const { old_password, new_password } = req.body;
-        const {user_id} = req;
+        const { user_id } = req;
 
         const user = await getUser({ user_id: user_id })
 
@@ -38,7 +38,7 @@ const updatePassword = async (req, res) => {
         return res.status(204).json()
     }
     catch (error) {
-        throw new Error(error)
+        res.status(500).json({ error: "Error updating password", details: error?.message });
     }
 }
 

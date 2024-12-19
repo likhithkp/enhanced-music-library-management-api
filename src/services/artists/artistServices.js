@@ -4,7 +4,10 @@ async function createArtist(dataToInsert) {
     try {
         return await models.artists.create(dataToInsert);
     } catch (error) {
-        throw new Error("Error creating artist", error.message);
+        return {
+            message: "Error creating artist.",
+            error: error.message,
+        };
     }
 }
 
@@ -12,7 +15,10 @@ async function getAllArtists() {
     try {
         return await models.artists.findAll();
     } catch (error) {
-        throw new Error("Error fetching artists", error.message);
+        return {
+            message: "Error while fetching artists.",
+            error: error.message,
+        };
     }
 }
 
@@ -23,7 +29,10 @@ async function deleteArtistById(data) {
             where: data
         });
     } catch (error) {
-        throw new Error('Error while deleting artist:', error.message);
+        return {
+            message: "Error while deleting artist.",
+            error: error.message,
+        };
     }
 }
 
@@ -33,7 +42,10 @@ async function getArtist(data) {
             where: data
         });
     } catch (error) {
-        throw new Error("Error fetching artist", error.message);
+        return {
+            message: "Error while fetching artist.",
+            error: error.message,
+        };
     }
 }
 
@@ -42,7 +54,10 @@ async function updateArtistInfo(artist_id, data) {
         return await models.artists.update(data,
             { where: { artist_id } });
     } catch (error) {
-        throw new Error("Error updating password", error.message);
+        return {
+            message: "Error updating artist info.",
+            error: error.message,
+        };
     }
 }
 

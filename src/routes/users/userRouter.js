@@ -12,8 +12,10 @@ const fetchAllUsers = require("../../controller/users/getAllUsers");
 const addUser = require("../../controller/users/addUser");
 const deleteUser = require("../../controller/users/deleteUser");
 const updatePassword = require("../../controller/users/updatePassword");
+const logoutUser = require("../../controller/users/logoutUser");
 
 //User routes
+userRouter.get('/logout', authenticateUser, logoutUser);
 userRouter.post('/signup', signupUserController);
 userRouter.post('/login', loginUserController);
 userRouter.get('/users', authenticateAdmin, fetchAllUsers);

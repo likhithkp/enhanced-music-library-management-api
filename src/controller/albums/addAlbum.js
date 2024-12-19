@@ -39,7 +39,7 @@ const addAlbum = async (req, res) => {
             });
         }
     } catch (error) {
-        throw new Error("Error creating album");
+        res.status(500).json({ error: "Error creating album", details: error?.message });
     }
 };
 

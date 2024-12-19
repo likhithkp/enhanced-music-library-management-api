@@ -34,7 +34,7 @@ const deleteArtist = async (req, res) => {
         }
     }
     catch (error) {
-        throw new Error(error.message)
+        res.status(500).json({ error: "Error deleting artist", details: error?.message });
     }
 }
 

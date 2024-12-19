@@ -14,6 +14,7 @@ module.exports = {
           key: 'artist_id',       // The primary key in artists
         },
         allowNull: false,
+        onDelete: 'CASCADE',
       },
       name: {
         type: DataTypes.STRING,

@@ -21,7 +21,7 @@ const fetchArtist = async (req, res) => {
             "error": null
         })
     } catch (error) {
-        throw new Error(error)
+        res.status(500).json({ error: "Error fetching artist", details: error?.message });
     }
 }
 

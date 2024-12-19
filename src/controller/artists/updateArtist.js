@@ -32,7 +32,7 @@ const updateArtist = async (req, res) => {
         await updateArtistInfo(artist_id, dataToInsert);
         return res.status(204).json();
     } catch (error) {
-        throw new Error("Error creating user");
+        res.status(500).json({ error: "Error updating artist", details: error?.message });
     }
 };
 

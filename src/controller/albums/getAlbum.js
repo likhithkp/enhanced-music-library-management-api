@@ -21,7 +21,7 @@ const getAlbum = async (req, res) => {
             "error": null
         })
     } catch (error) {
-        throw new Error(error)
+        res.status(500).json({ error: "Error while fetching album", details: error?.message });
     }
 }
 

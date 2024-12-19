@@ -4,7 +4,10 @@ async function createAlbum(dataToInsert) {
     try {
         return await models.albums.create(dataToInsert);
     } catch (error) {
-        throw new Error("Error creating album", error.message);
+        return {
+            message: "Error while creating album.",
+            error: error.message,
+        };
     }
 }
 
@@ -36,7 +39,10 @@ async function getAllAlbums() {
 
         return formattedResult;
     } catch (error) {
-        throw new Error(`Error fetching albums: ${error.message}`);
+        return {
+            message: "Error while fetching albums.",
+            error: error.message,
+        };
     }
 }
 
@@ -47,7 +53,10 @@ async function deleteAlbumById(data) {
             where: data
         });
     } catch (error) {
-        throw new Error('Error while deleting album:', error.message);
+        return {
+            message: "Error while deleting album.",
+            error: error.message,
+        };
     }
 }
 
@@ -66,7 +75,7 @@ async function getAlbumById(data) {
         if (album) {
             return {
                 album_id: album?.album_id,
-                artist_name: album?.artist.name,
+                artist_name: album?.artist?.name,
                 name: album?.name,
                 year: album?.year,
                 hidden: album?.hidden
@@ -75,7 +84,10 @@ async function getAlbumById(data) {
             throw new Error("Album not found");
         }
     } catch (error) {
-        throw new Error("Error fetching album: " + error.message);
+        return {
+            message: "Error fetching album.",
+            error: error.message,
+        };
     }
 }
 
@@ -84,7 +96,10 @@ async function updateAlbumInfo(album_id, data) {
         return await models.albums.update(data,
             { where: { album_id } });
     } catch (error) {
-        throw new Error("Error updating album info", error.message);
+        return {
+            message: "Error updating album.",
+            error: error.message,
+        };
     }
 }
 

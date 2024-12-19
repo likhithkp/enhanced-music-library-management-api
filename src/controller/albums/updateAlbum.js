@@ -32,7 +32,7 @@ const updateAlbum = async (req, res) => {
         await updateAlbumInfo(album_id, dataToInsert);
         return res.status(204).json();
     } catch (error) {
-        throw new Error(`Error updating album ${error.message}`);
+        res.status(500).json({ error: "Error updating album", details: error?.message });
     }
 };
 

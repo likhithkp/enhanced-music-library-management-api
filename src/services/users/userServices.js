@@ -4,7 +4,10 @@ async function signup(dataToInsert) {
     try {
         return await models.users.create(dataToInsert);
     } catch (error) {
-        throw new Error("Error creating user", error.message);
+        return {
+            message: "Error while adding or signup.",
+            error: error.message,
+        };
     }
 }
 
@@ -12,7 +15,10 @@ async function getAllUsers() {
     try {
         return await models.users.findAll();
     } catch (error) {
-        throw new Error("Error fetching users", error.message);
+        return {
+            message: "Error fetching users.",
+            error: error.message,
+        };
     }
 }
 
@@ -22,7 +28,10 @@ async function deleteUserById(data) {
             where: data
         });
     } catch (error) {
-        throw new Error('Error while deleting user:', error.message);
+        return {
+            message: "Error while deleting user.",
+            error: error.message,
+        };
     }
 }
 
@@ -32,7 +41,10 @@ async function getUser(data) {
             where: data
         });
     } catch (error) {
-        throw new Error("Error fetching user", error.message);
+        return {
+            message: "Error fetching user.",
+            error: error.message,
+        };
     }
 }
 
@@ -42,7 +54,10 @@ async function updateUserPassword({ user_id, new_password }) {
             { password: new_password },
             { where: { user_id } });
     } catch (error) {
-        throw new Error("Error updating password", error.message);
+        return {
+            message: "Error updating user.",
+            error: error.message,
+        };
     }
 }
 

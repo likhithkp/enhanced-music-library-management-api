@@ -26,8 +26,20 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Artists.associate = (models) => {
-        Artists.hasMany(models.albums, { foreignKey: 'artist_id', targetKey: 'artist_id' });
-        Artists.hasMany(models.tracks, { foreignKey: 'artist_id', targetKey: 'artist_id' });
+        Artists.hasMany(models.albums, {
+            foreignKey: 'artist_id',
+            targetKey: 'artist_id'
+        });
+        Artists.hasMany(models.tracks, {
+            foreignKey: 'artist_id',
+            targetKey: 'artist_id'
+        });
+        Artists.hasMany(models.favourites, {
+            foreignKey: 'item_id',
+            constraints: false,
+            scope: { category: 'artist' },
+            as: 'favourites',
+        });
     };
 
     return Artists;

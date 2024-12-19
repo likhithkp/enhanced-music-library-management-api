@@ -41,7 +41,7 @@ const signupUserController = async (req, res) => {
             });
         }
     } catch (error) {
-        throw new Error("Error creating user");
+        res.status(500).json({ error: "Error creating user/Signup", details: error?.message });
     }
 };
 

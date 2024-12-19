@@ -10,7 +10,7 @@ const fetchAllArtists = async (_, res) => {
             "error": null
         })
     } catch (error) {
-        throw new Error(error)
+        res.status(500).json({ error: "Error fetching all artists", details: error?.message });
     }
 }
 

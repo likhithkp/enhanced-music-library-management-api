@@ -33,7 +33,7 @@ const addUser = async (req, res) => {
         }
     }
     catch (error) {
-        throw new Error(error)
+        res.status(500).json({ error: "Error adding user", details: error?.message });
     }
 }
 
