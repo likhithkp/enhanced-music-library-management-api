@@ -1,4 +1,4 @@
-const { getUser, signup } = require("../../services/users/userServices");
+const { getUser, signup, getAllUsers } = require("../../services/users/userServices");
 
 const addUser = async (req, res) => {
     try {
@@ -20,6 +20,18 @@ const addUser = async (req, res) => {
                 "message": null,
                 "error": "Email already exists."
             })
+        }
+
+        const users = await getAllUsers();
+        const existingAdmin = users && users?.find(user => user?.role === 'Admin');
+
+        if (existingAdmin !== undefined) {
+            return res.status(400).json({
+                status: 400,
+                data: null,
+                message: "Bad Request, Admin already exists",
+                error: null,
+            });
         }
 
         const newUser = await signup({ email, password, role });
