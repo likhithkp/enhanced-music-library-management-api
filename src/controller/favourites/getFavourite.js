@@ -1,22 +1,30 @@
 const { getFavourite } = require("../../services/favourites/favouriteServices");
 
 const getFavourites = async (req, res) => {
-    const {user_id} = req;
+    const { user_id } = req;
     try {
-        const { category } = req.params
-        const favourites = await getFavourite(category, user_id);
+        const { category } = req.params;
+        const { limit = 5, offset = 0 } = req.query;
+
+        const pagination = {
+            limit: parseInt(limit, 10) || 5,
+            offset: parseInt(offset, 10) || 0,
+        };
+
+        const favourites = await getFavourite(category, user_id, pagination);
+
         return res.status(200).json({
-            "status": 200,
-            "data": favourites || [],
-            "message": "Favorites retrieved successfully.",
-            "error": null
-        })
+            status: 200,
+            data: favourites || [],
+            message: "Favorites retrieved successfully.",
+            error: null,
+        });
     } catch (error) {
         res.status(500).json({
             message: "An error occurred while retrieving favourites.",
             error: error.message,
         });
     }
-}
+};
 
 module.exports = getFavourites;

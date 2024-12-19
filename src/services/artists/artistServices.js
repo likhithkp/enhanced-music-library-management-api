@@ -11,9 +11,26 @@ async function createArtist(dataToInsert) {
     }
 }
 
-async function getAllArtists() {
+async function getAllArtists({ limit, offset }, filters) {
     try {
-        return await models.artists.findAll();
+        const whereClause = {};
+
+        if (filters.grammy !== undefined) {
+            whereClause.grammy = parseInt(filters.grammy, 10);
+        }
+
+        if (filters.hidden !== undefined) {
+            whereClause.hidden = filters.hidden === 'true';
+        }
+
+        const artists = await models.artists.findAll({
+            where: whereClause,
+            limit,
+            offset,
+            attributes: ["artist_id", "name", "grammy", "hidden", "created_at", "updated_at"],
+        });
+
+        return artists;
     } catch (error) {
         return {
             message: "Error while fetching artists.",

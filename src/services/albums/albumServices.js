@@ -11,20 +11,34 @@ async function createAlbum(dataToInsert) {
     }
 }
 
-async function getAllAlbums() {
+async function getAllAlbums({ limit, offset }, filters) {
     try {
+        const whereClause = {};
+
+        if (filters.artist_id) {
+            whereClause.artist_id = filters.artist_id;
+        }
+
+        if (filters.hidden !== undefined) {
+            whereClause.hidden = filters.hidden === 'true';
+        }
+
         const result = await models.albums.findAll({
+            where: whereClause,
             include: [
                 {
                     model: models.artists,
                     attributes: ["name"],
                 },
             ],
+            limit,
+            offset,
+            attributes: ["album_id", "name", "year", "hidden", "artist_id"],
         });
 
-        if (!result?.length) return null;
+        if (!result?.length) return [];
 
-        const formattedResult = result.map(album => {
+        const formattedResult = result.map((album) => {
             const albumData = album.get();
             const artistName = albumData.artist ? albumData.artist.name : null;
 
@@ -45,7 +59,6 @@ async function getAllAlbums() {
         };
     }
 }
-
 
 async function deleteAlbumById(data) {
     try {

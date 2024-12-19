@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
+        indexes: [
+            { fields: ['favorite_id'] },
+            { fields: ['category'] },
+        ],
     });
 
     Favourites.associate = (models) => {

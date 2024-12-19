@@ -11,9 +11,22 @@ async function signup(dataToInsert) {
     }
 }
 
-async function getAllUsers() {
+async function getAllUsers({ limit, offset }, role) {
     try {
-        return await models.users.findAll();
+        const whereClause = {};
+
+        if (role) {
+            whereClause.role = role;
+        }
+
+        const users = await models.users.findAll({
+            where: whereClause,
+            limit,
+            offset,
+            attributes: ["user_id", "email", "role", "created_at", "updated_at"],
+        });
+
+        return users;
     } catch (error) {
         return {
             message: "Error fetching users.",

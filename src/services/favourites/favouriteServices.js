@@ -12,7 +12,7 @@ async function createFavourite(dataToInsert) {
     }
 }
 
-async function getFavourite(category, user_id) {
+async function getFavourite(category, user_id, { limit, offset }) {
     try {
         const categoryMapping = {
             artist: { model: models.artists, alias: 'artist' },
@@ -36,10 +36,12 @@ async function getFavourite(category, user_id) {
             ],
             attributes: ["favorite_id", "category", "item_id", "created_at"],
             where: { category, user_id },
+            limit,
+            offset,
         });
 
         if (!favourites.length) {
-            return []
+            return [];
         }
 
         const formattedResult = favourites.map((favourite) => {
@@ -55,8 +57,7 @@ async function getFavourite(category, user_id) {
             };
         });
 
-        return formattedResult
-
+        return formattedResult;
     } catch (error) {
         return {
             message: "Error fetching favourites.",

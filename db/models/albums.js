@@ -31,6 +31,11 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
+        indexes: [
+            { fields: ['album_id'] },
+            { fields: ['artist_id'] },
+            { fields: ['hidden'] },
+        ],
     });
 
     Albums.associate = (models) => {

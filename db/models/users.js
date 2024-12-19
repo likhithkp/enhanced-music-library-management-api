@@ -19,15 +19,17 @@ module.exports = (sequelize, DataTypes) => {
     role: {
       type: DataTypes.ENUM('admin', 'editor', 'viewer'),
       allowNull: false,
-      unique: true,
     },
   }, {
-    // Disable Sequelize's default timestamps
     timestamps: true,
-    // Specify custom column names for the timestamps
     createdAt: 'created_at',
     updatedAt: 'updated_at',
-  });
+    indexes: [
+      { fields: ['user_id'] },
+      { fields: ['email'] },
+      { fields: ['role'] },
+    ],
+  }); 
 
   Users.associate = (models) => {
     Users.hasMany(models.favourites, {

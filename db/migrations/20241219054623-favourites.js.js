@@ -30,9 +30,19 @@ module.exports = {
         defaultValue: DataTypes.NOW,
       },
     })
+    await queryInterface.addIndex('favourites', {
+      name: 'favourites_favorite_id_idx',
+      fields: ['favorite_id'],
+    });
+    await queryInterface.addIndex('favourites', {
+      name: 'favourites_category_idx',
+      fields: ['category'],
+    });
   },
 
   async down(queryInterface) {
     await queryInterface.dropTable('favourites');
+    await queryInterface.removeIndex('favourites', 'favourites_favorite_id_idx');
+    await queryInterface.removeIndex('favourites', 'favourites_category_idx');
   },
 };

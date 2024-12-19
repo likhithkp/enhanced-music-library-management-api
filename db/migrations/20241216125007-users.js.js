@@ -3,7 +3,7 @@ module.exports = {
     await queryInterface.createTable('users', {
       user_id: {
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4, // Auto-generate UUID
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
       },
@@ -32,9 +32,24 @@ module.exports = {
         defaultValue: DataTypes.NOW,
       }
     })
+    await queryInterface.addIndex('users', {
+      name: 'users_user_id_idx',
+      fields: ['user_id'],
+    });
+    await queryInterface.addIndex('users', {
+      name: 'users_email_idx',
+      fields: ['email'],
+    });
+    await queryInterface.addIndex('users', {
+      name: 'users_role_idx',
+      fields: ['role'],
+    });
   },
 
   async down(queryInterface) {
     await queryInterface.dropTable('users');
+    await queryInterface.removeIndex('users', 'users_user_id_idx');
+    await queryInterface.removeIndex('users', 'users_email_idx');
+    await queryInterface.removeIndex('users', 'users_role_idx');
   },
 };

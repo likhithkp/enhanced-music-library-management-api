@@ -11,9 +11,24 @@ async function createTrack(dataToInsert) {
     }
 }
 
-async function getAllTracks() {
+async function getAllTracks({ limit, offset }, filters) {
     try {
+        const whereClause = {};
+
+        if (filters.artist_id) {
+            whereClause.artist_id = filters.artist_id;
+        }
+
+        if (filters.album_id) {
+            whereClause.album_id = filters.album_id;
+        }
+
+        if (filters.hidden !== undefined) {
+            whereClause.hidden = filters.hidden === 'true';
+        }
+
         const tracks = await models.tracks.findAll({
+            where: whereClause,
             include: [
                 {
                     model: models.artists,
@@ -23,11 +38,14 @@ async function getAllTracks() {
                     model: models.albums,
                     attributes: ["name"],
                 },
-            ]
+            ],
+            limit,
+            offset,
         });
-        if (!tracks?.length) return null;
 
-        const formattedResult = tracks.map(track => {
+        if (!tracks?.length) return [];
+
+        const formattedResult = tracks.map((track) => {
             const trackData = track.get();
             const artistName = trackData.artist ? trackData.artist.name : null;
             const albumName = trackData.album ? trackData.album.name : null;
@@ -38,7 +56,7 @@ async function getAllTracks() {
                 album_name: albumName,
                 name: trackData.name,
                 hidden: trackData.hidden,
-                year: trackData.year
+                year: trackData.year,
             };
         });
 

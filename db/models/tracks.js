@@ -2,23 +2,23 @@ module.exports = (sequelize, DataTypes) => {
     const Tracks = sequelize.define('tracks', {
         track_id: {
             type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4, // Auto-generate UUID
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
             allowNull: false,
         },
         album_id: {
             type: DataTypes.UUID,
             references: {
-                model: 'albums',  // Reference to the albums model
-                key: 'album_id',       // The primary key in albums
+                model: 'albums',
+                key: 'album_id',
             },
             allowNull: false,
         },
         artist_id: {
             type: DataTypes.UUID,
             references: {
-                model: 'artists',  // Reference to the artists model
-                key: 'artist_id',       // The primary key in artists
+                model: 'artists',
+                key: 'artist_id',
             },
             allowNull: false,
         },
@@ -39,6 +39,12 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
+        indexes: [
+            { fields: ['track_id'] },
+            { fields: ['album_id'] },
+            { fields: ['artist_id'] },
+            { fields: ['hidden'] },
+        ],
     });
 
     Tracks.associate = (models) => {

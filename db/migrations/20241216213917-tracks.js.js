@@ -3,15 +3,15 @@ module.exports = {
     await queryInterface.createTable('tracks', {
       track_id: {
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4, // Auto-generate UUID
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
       },
       album_id: {
         type: DataTypes.UUID,
         references: {
-          model: 'albums',  // Reference to the albums model
-          key: 'album_id',       // The primary key in albums
+          model: 'albums',
+          key: 'album_id',
         },
         allowNull: false,
         onDelete: 'CASCADE',
@@ -19,8 +19,8 @@ module.exports = {
       artist_id: {
         type: DataTypes.UUID,
         references: {
-            model: 'artists',  // Reference to the artists model
-            key: 'artist_id',       // The primary key in artists
+            model: 'artists',
+            key: 'artist_id',
         },
         allowNull: false,
         onDelete: 'CASCADE',
@@ -49,9 +49,29 @@ module.exports = {
         defaultValue: DataTypes.NOW,
       }
     });
+    await queryInterface.addIndex('tracks', {
+      name: 'tracks_track_id_idx',
+      fields: ['track_id'],
+    });
+    await queryInterface.addIndex('tracks', {
+      name: 'tracks_album_id_idx',
+      fields: ['album_id'],
+    });
+    await queryInterface.addIndex('tracks', {
+      name: 'tracks_artist_id_idx',
+      fields: ['artist_id'],
+    });
+    await queryInterface.addIndex('tracks', {
+      name: 'tracks_hidden_idx',
+      fields: ['hidden'],
+    });
   },
 
   async down(queryInterface) {
     await queryInterface.dropTable('tracks');
+    await queryInterface.removeIndex('tracks', 'tracks_track_id_idx');
+    await queryInterface.removeIndex('tracks', 'tracks_album_id_idx');
+    await queryInterface.removeIndex('tracks', 'tracks_artist_id_idx');
+    await queryInterface.removeIndex('tracks', 'tracks_hidden_idx');
   },
 };
