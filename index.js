@@ -1,8 +1,13 @@
 const express = require("express");
-const { models } = require("./db");
-const router = require("./src/routes");
+const cors = require("cors")
+
 require('dotenv').config();
+const { models } = require("./db");
+
+const router = require("./src/routes");
 const app = express();
+
+app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
