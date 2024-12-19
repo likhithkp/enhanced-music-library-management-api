@@ -11,7 +11,7 @@ const updateAlbum = require("../../controller/albums/updateAlbum");
 const deleteAlbum = require("../../controller/albums/deleteAlbum");
 
 albumRouter.get('/albums', authenticateUser, getAlbums);
-albumRouter.get('/albums/:track_id', authenticateUser, getAlbum);
+albumRouter.get('/albums/:album_id', authenticateUser, getAlbum);
 albumRouter.post('/albums/add-album', adminEditorAuth, addAlbum);
 albumRouter.put('/albums/:album_id', adminEditorAuth, updateAlbum);
 albumRouter.delete('/albums/:album_id', adminEditorAuth, deleteAlbum);
