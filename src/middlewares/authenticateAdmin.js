@@ -28,6 +28,10 @@ const authenticateAdmin = async (req, res, next) => {
         }
         next()
     } catch (error) {
+        res.status(500).json({
+            "status": 500,
+            "message": `Error: ${error.message}`,
+        })
         throw new Error(error)
     }
 }

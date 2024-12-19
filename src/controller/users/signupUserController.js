@@ -10,7 +10,7 @@ const signupUserController = async (req, res) => {
             return res.status(400).json({
                 "status": 400,
                 "data": null,
-                "message": "Bad Request, Reason: Missing Field",
+                "message": "Bad Request, Reason: Missing email or password",
                 "error": null
             });
         }
