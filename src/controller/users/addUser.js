@@ -12,7 +12,7 @@ const addUser = async (req, res) => {
             })
         }
 
-        const user = await getUser({email: email});
+        const user = await getUser({ email: email });
         if (user) {
             return res.status(409).json({
                 "status": 409,
@@ -23,9 +23,9 @@ const addUser = async (req, res) => {
         }
 
         const users = await getAllUsers();
-        const existingAdmin = (role === 'Admin' && users?.find(user => user?.role === 'Admin'));
+        const existingAdmin = users && users?.find(user => user?.role === 'Admin');
 
-        if (existingAdmin !== undefined) {
+        if (existingAdmin !== undefined && role === 'Admin') {
             return res.status(400).json({
                 status: 400,
                 data: null,
