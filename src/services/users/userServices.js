@@ -19,13 +19,20 @@ async function getAllUsers({ limit, offset }, role) {
             whereClause.role = role;
         }
 
-        const users = await models.users.findAll({
+        const queryOptions = {
             where: whereClause,
-            limit,
-            offset,
             attributes: ["user_id", "email", "role", "created_at", "updated_at"],
-        });
+        };
 
+        if (limit && limit > 0) {
+            queryOptions.limit = limit;
+        }
+
+        if (offset && offset >= 0) {
+            queryOptions.offset = offset;
+        }
+
+        const users = await models.users.findAll(queryOptions);
         return users;
     } catch (error) {
         return {

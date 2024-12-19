@@ -5,7 +5,6 @@ const signupUserController = async (req, res) => {
 
         const { email, password } = req.body;
 
-        // Validate the required fields
         if (!email || !password) {
             return res.status(400).json({
                 "status": 400,
@@ -16,7 +15,7 @@ const signupUserController = async (req, res) => {
         }
 
         // Check if the user already exists with the provided email
-        const user = await getUser({email: email});
+        const user = await getUser({ email: email });
         if (user) {
             return res.status(409).json({
                 "status": 409,
@@ -27,7 +26,7 @@ const signupUserController = async (req, res) => {
         }
 
         // Get all users and assign the role to the new user
-        const users = await getAllUsers();
+        const users = await getAllUsers({ limit: 100, offset: 0 });
         const role = users.length === 0 ? "Admin" : "Viewer"; // Assign Admin if no users exist
 
         // Sign up the user
@@ -41,7 +40,7 @@ const signupUserController = async (req, res) => {
             });
         }
     } catch (error) {
-        res.status(500).json({ error: "Error creating user/Signup", details: error?.message });
+        res.status(500).json({ error: "Error while signup", details: error?.message });
     }
 };
 
