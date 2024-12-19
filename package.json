@@ -4,7 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon index.js",
     "migrate": "sequelize db:migrate",
     "migrate:single": "sequelize db:migrate --name ${FILE_NAME}",
     "win-migrate:single": "sequelize db:migrate --name",
