@@ -56,6 +56,7 @@
 | Column Name | Type    | Description                      |
 | ----------- | ------- | -------------------------------- |
 | `album_id`  | UUID    | Unique identifier for the album. |
+| `artist_id`  | UUID    | Unique identifier for the album. |
 | `name`      | VARCHAR | Album name.                      |
 | `year`      | INTEGER | Release year.                    |
 | `hidden`    | BOOLEAN | Visibility toggle.               |
@@ -65,15 +66,20 @@
 | Column Name | Type    | Description                      |
 | ----------- | ------- | -------------------------------- |
 | `track_id`  | UUID    | Unique identifier for the track. |
+| `album_id`  | UUID    | Unique identifier for the album. |
 | `name`      | VARCHAR | Track name.                      |
 | `duration`  | INTEGER | Track duration in seconds.       |
 | `hidden`    | BOOLEAN | Visibility toggle.               |
+| `artist_id` | UUID    | Unique identifier for the artist. |
 
 ### 5. Favorites Table
 
 | Column Name   | Type | Description                       |
 | ------------- | ---- | --------------------------------- |
 | `favorite_id` | UUID | Reference to the favorite entity. |
+| `category`    |string| artist, album or track.           |
+| `item_id`     | UUID | Reference to the item.            |
+| `user_id`     | UUID | Reference to the user.            |
 
 ## Quick Summary of Endpoints:
 
@@ -85,31 +91,31 @@
 
 Below is a brief summary of all the endpoints and their key response codes:
 
-0. [**GET BASEURL/Logout**](#0-get-logout---logout-a-user): 200, 400
-1. [**POST BASEURL/signup**](#1-post-signup---register-a-new-user): 201, 400, 409
-2. [**POST BASEURL/login**](#2-post-login---login-a-user): 200, 400, 404
-3. [**GET BASEURL/users**](#3-get-users---retrieve-all-users): 200, 400, 401
-4. [**POST BASEURL/users/add-user**](#4-post-usersadd-user---create-a-new-user): 201, 400, 401, 403, 409
-5. [**DELETE BASEURL/users/:id**](#5-delete-usersid---delete-a-user): 200, 400, 401, 403, 404
-6. [**PUT BASEURL/users/update-password**](#6-put-usersupdate-password---update-user-password): 204, 400, 401, 403, 404
-7. [**GET BASEURL/artists**](#7-get-artists---retrieve-all-artists): 200, 400, 401
-8. [**GET BASEURL/artists/:id**](#8-get-artistsid---retrieve-an-artist): 200, 401, 403, 404
-9. [**POST BASEURL/artists/add-artist**](#9-post-artistsadd-artist---create-a-new-artist): 201, 400, 401
-10. [**PUT BASEURL/artists/:id**](#10-put-artistsid---update-an-artist): 204, 400, 401, 403, 404
-11. [**DELETE BASEURL/artists/:id**](#11-delete-artistsid---delete-an-artist): 200, 400, 401, 403, 404
-12. [**GET BASEURL/albums**](#12-get-albums---retrieve-all-albums): 200, 400, 401, 403, 404
-13. [**GET BASEURL/albums/:id**](#13-get-albumsid---retrieve-an-album): 200, 401, 403, 404
-14. [**POST BASEURL/albums/add-album**](#14-post-albumsadd-album---create-a-new-album): 201, 400, 401, 403, 400
-15. [**PUT BASEURL/albums/:id**](#15-put-albumsid---update-an-album): 204, 400, 401, 403, 404
-16. [**DELETE BASEURL/albums/:id**](#16-delete-albumsid---delete-an-album): 200, 400, 401, 403, 404
-17. [**GET BASEURL/tracks**](#17-get-tracks---retrieve-all-tracks): 200, 400, 401, 403, 404
-18. [**GET BASEURL/tracks/:id**](#18-get-tracksid---retrieve-a-track): 200, 400, 401, 403, 404
-19. [**POST BASEURL/tracks/add-track**](#19-post-tracksadd-track---create-a-new-track): 201, 400, 401, 403, 404
-20. [**PUT BASEURL/tracks/:id**](#20-put-tracksid---update-a-track): 204, 400, 401, 403, 404
-21. [**DELETE BASEURL/tracks/:id**](#21-delete-tracksid---delete-a-track): 200, 400, 401, 403, 404
-22. [**GET BASEURL/favorites/:category**](#22-get-favoritescategory---retrieve-favorites): 200, 400, 401, 403
-23. [**POST BASEURL/favorites/add-favorite**](#23-post-favoritesadd-favorite---add-a-favorite): 201, 400, 401, 403, 404
-24. [**DELETE BASEURL/favorites/remove-favorite/:id**](#24-delete-favoritesremove-favoriteid---remove-a-favorite): 200, 400, 401, 403, 404
+0. [**GET https://enhanced-music-library-management-api-z77c.onrender.com/Logout**](#0-get-logout---logout-a-user): 200, 400
+1. [**POST https://enhanced-music-library-management-api-z77c.onrender.com/signup**](#1-post-signup---register-a-new-user): 201, 400, 409
+2. [**POST https://enhanced-music-library-management-api-z77c.onrender.com/login**](#2-post-login---login-a-user): 200, 400, 404
+3. [**GET https://enhanced-music-library-management-api-z77c.onrender.com/users**](#3-get-users---retrieve-all-users): 200, 400, 401
+4. [**POST https://enhanced-music-library-management-api-z77c.onrender.com/users/add-user**](#4-post-usersadd-user---create-a-new-user): 201, 400, 401, 403, 409
+5. [**DELETE https://enhanced-music-library-management-api-z77c.onrender.com/users/:id**](#5-delete-usersid---delete-a-user): 200, 400, 401, 403, 404
+6. [**PUT https://enhanced-music-library-management-api-z77c.onrender.com/users/update-password**](#6-put-usersupdate-password---update-user-password): 204, 400, 401, 403, 404
+7. [**GET https://enhanced-music-library-management-api-z77c.onrender.com/artists**](#7-get-artists---retrieve-all-artists): 200, 400, 401
+8. [**GET https://enhanced-music-library-management-api-z77c.onrender.com/artists/:id**](#8-get-artistsid---retrieve-an-artist): 200, 401, 403, 404
+9. [**POST https://enhanced-music-library-management-api-z77c.onrender.com/artists/add-artist**](#9-post-artistsadd-artist---create-a-new-artist): 201, 400, 401
+10. [**PUT https://enhanced-music-library-management-api-z77c.onrender.com/artists/:id**](#10-put-artistsid---update-an-artist): 204, 400, 401, 403, 404
+11. [**DELETE https://enhanced-music-library-management-api-z77c.onrender.com/artists/:id**](#11-delete-artistsid---delete-an-artist): 200, 400, 401, 403, 404
+12. [**GET https://enhanced-music-library-management-api-z77c.onrender.com/albums**](#12-get-albums---retrieve-all-albums): 200, 400, 401, 403, 404
+13. [**GET https://enhanced-music-library-management-api-z77c.onrender.com/albums/:id**](#13-get-albumsid---retrieve-an-album): 200, 401, 403, 404
+14. [**POST https://enhanced-music-library-management-api-z77c.onrender.com/albums/add-album**](#14-post-albumsadd-album---create-a-new-album): 201, 400, 401, 403, 400
+15. [**PUT https://enhanced-music-library-management-api-z77c.onrender.com/albums/:id**](#15-put-albumsid---update-an-album): 204, 400, 401, 403, 404
+16. [**DELETE https://enhanced-music-library-management-api-z77c.onrender.com/albums/:id**](#16-delete-albumsid---delete-an-album): 200, 400, 401, 403, 404
+17. [**GET https://enhanced-music-library-management-api-z77c.onrender.com/tracks**](#17-get-tracks---retrieve-all-tracks): 200, 400, 401, 403, 404
+18. [**GET https://enhanced-music-library-management-api-z77c.onrender.com/tracks/:id**](#18-get-tracksid---retrieve-a-track): 200, 400, 401, 403, 404
+19. [**POST https://enhanced-music-library-management-api-z77c.onrender.com/tracks/add-track**](#19-post-tracksadd-track---create-a-new-track): 201, 400, 401, 403, 404
+20. [**PUT https://enhanced-music-library-management-api-z77c.onrender.com/tracks/:id**](#20-put-tracksid---update-a-track): 204, 400, 401, 403, 404
+21. [**DELETE https://enhanced-music-library-management-api-z77c.onrender.com/tracks/:id**](#21-delete-tracksid---delete-a-track): 200, 400, 401, 403, 404
+22. [**GET https://enhanced-music-library-management-api-z77c.onrender.com/favorites/:category**](#22-get-favoritescategory---retrieve-favorites): 200, 400, 401, 403
+23. [**POST https://enhanced-music-library-management-api-z77c.onrender.com/favorites/add-favorite**](#23-post-favoritesadd-favorite---add-a-favorite): 201, 400, 401, 403, 404
+24. [**DELETE https://enhanced-music-library-management-api-z77c.onrender.com/favorites/remove-favorite/:id**](#24-delete-favoritesremove-favoriteid---remove-a-favorite): 200, 400, 401, 403, 404
 
 ## Endpoints
 
@@ -130,13 +136,8 @@ Below is a brief summary of all the endpoints and their key response codes:
 #### Request Endpoint:
 
 ```http
-GET BASE-URL/logout
+GET https://enhanced-music-library-management-api-z77c.onrender.com/logout
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: User logged out successfully.
-- **`400`**: Bad Request.
 
 #### Responses:
 
@@ -169,7 +170,7 @@ GET BASE-URL/logout
 #### Request Endpoint:
 
 ```http
-POST BASE-URL/signup
+POST https://enhanced-music-library-management-api-z77c.onrender.com/signup
 ```
 
 #### Request Body:
@@ -180,12 +181,6 @@ POST BASE-URL/signup
   "password": "password"
 }
 ```
-
-#### Response Codes to Consider:
-
-- **`201`**: User created successfully.
-- **`400`**: Missing fields, Bad Request, Etc.
-- **`409`**: Email already exists.
 
 #### Responses:
 
@@ -229,7 +224,7 @@ POST BASE-URL/signup
 #### Request Endpoint:
 
 ```http
-POST BASE-URL/login
+POST https://enhanced-music-library-management-api-z77c.onrender.com/login
 ```
 
 #### Request Body:
@@ -240,12 +235,6 @@ POST BASE-URL/login
   "password": "securePassword123"
 }
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: User logged in successfully.
-- **`400`**: Missing fields, Bad Request, Etc.
-- **`404`**: User not found.
 
 #### Responses:
 
@@ -305,20 +294,14 @@ POST BASE-URL/login
 #### Request Endpoint:
 
 ```http
-GET BASE-URL/users?limit=5&offset=0&role=Editor
+GET https://enhanced-music-library-management-api-z77c.onrender.com/users?limit=5&offset=0&role=Editor
 ```
 
 or
 
 ```http
-GET BASE-URL/users
+GET https://enhanced-music-library-management-api-z77c.onrender.com/users
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: Users fetched successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
 
 #### Responses:
 
@@ -378,7 +361,7 @@ GET BASE-URL/users
 #### Request Endpoint:
 
 ```http
-POST BASE-URL/users/add-user
+POST https://enhanced-music-library-management-api-z77c.onrender.com/users/add-user
 ```
 
 #### Request Body:
@@ -391,14 +374,6 @@ POST BASE-URL/users/add-user
   "error": "Email already exists."
 }
 ```
-
-#### Response Codes to Consider:
-
-- **`201`**: User created successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`409`**: Email already exists.
 
 #### Responses:
 
@@ -472,22 +447,14 @@ POST BASE-URL/users/add-user
 #### Request Endpoint:
 
 ```http
-DELETE BASE-URL/users/:user_id
+DELETE https://enhanced-music-library-management-api-z77c.onrender.com/users/:user_id
 ```
 
 or
 
 ```http
-DELETE BASE-URL/users/123e4567-e89b-12d3-a456-426614174000
+DELETE https://enhanced-music-library-management-api-z77c.onrender.com/users/123e4567-e89b-12d3-a456-426614174000
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: User deleted successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: User not found.
 
 #### Responses:
 
@@ -501,14 +468,6 @@ DELETE BASE-URL/users/123e4567-e89b-12d3-a456-426614174000
   "error": null
 }
 ```
-
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - User Not Found**
 
 ```json
 {
@@ -534,7 +493,7 @@ DELETE BASE-URL/users/123e4567-e89b-12d3-a456-426614174000
 #### Request Endpoint:
 
 ```http
-PUT BASE-URL/users/update-password
+PUT https://enhanced-music-library-management-api-z77c.onrender.com/users/update-password
 ```
 
 #### Request Body:
@@ -545,14 +504,6 @@ PUT BASE-URL/users/update-password
   "new_password": "newPassword"
 }
 ```
-
-#### Response Codes to Consider:
-
-- **`204`**: Password updated successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: User not found.
 
 #### Responses:
 
@@ -567,14 +518,6 @@ or
 ```
 <empty response>
 ```
-
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - User Not Found** : Same as above
 
 ### 7. GET /artists - Retrieve All Artists
 
@@ -600,20 +543,14 @@ You can filter artists by Grammy status, visibility, and control the number of r
 #### Request Endpoint:
 
 ```http
-GET BASE-URL/artists?limit=5&offset=0&grammy=10&hidden=false
+GET https://enhanced-music-library-management-api-z77c.onrender.com/artists?limit=5&offset=0&grammy=10&hidden=false
 ```
 
 or
 
 ```http
-GET BASE-URL/artists
+GET https://enhanced-music-library-management-api-z77c.onrender.com/artists
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: Artists fetched successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
 
 #### Responses:
 
@@ -636,10 +573,6 @@ GET BASE-URL/artists
 }
 ```
 
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
 ### 8. GET /artists/:id - Retrieve an Artist
 
 - **Description**: Retrieve a single artist by providing their artist ID.
@@ -655,21 +588,14 @@ GET BASE-URL/artists
 #### Request Endpoint:
 
 ```http
-GET BASE-URL/artists/:artist_id
+GET https://enhanced-music-library-management-api-z77c.onrender.com/artists/:artist_id
 ```
 
 or
 
 ```http
-GET BASE-URL/artists/123e4567-e89b-12d3-a456-426614174000
+GET https://enhanced-music-library-management-api-z77c.onrender.com/artists/123e4567-e89b-12d3-a456-426614174000
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: Artist fetched successfully.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: Artist not found.
 
 #### Responses:
 
@@ -689,12 +615,6 @@ GET BASE-URL/artists/123e4567-e89b-12d3-a456-426614174000
 }
 ```
 
-- **b. 401 - Unauthorized Access** : Same as above
-
-- **c. 403 - Forbidden Access** : Same as above
-
-- **d. 404 - Artist Not Found**: Same as above
-
 ### 9. POST /artists/add-artist - Add a new Artist
 
 - **Description**: Add a new artist to the system.
@@ -710,7 +630,7 @@ GET BASE-URL/artists/123e4567-e89b-12d3-a456-426614174000
 #### Request Endpoint:
 
 ```http
-POST BASE-URL/artists/add-artist
+POST https://enhanced-music-library-management-api-z77c.onrender.com/artists/add-artist
 ```
 
 #### Request Body:
@@ -722,12 +642,6 @@ POST BASE-URL/artists/add-artist
   "hidden": false
 }
 ```
-
-#### Response Codes to Consider:
-
-- **`201`**: Artist created successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
 
 #### Responses:
 
@@ -741,10 +655,6 @@ POST BASE-URL/artists/add-artist
   "error": null
 }
 ```
-
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
 
 ### 10. PUT /artists/:id - Update an Artist
 
@@ -761,13 +671,13 @@ POST BASE-URL/artists/add-artist
 #### Request Endpoint:
 
 ```http
-PUT BASE-URL/artists/:artist_id
+PUT https://enhanced-music-library-management-api-z77c.onrender.com/artists/:artist_id
 ```
 
 or
 
 ```http
-PUT BASE-URL/artists/123e4567-e89b-12d3-a456-426614174000
+PUT https://enhanced-music-library-management-api-z77c.onrender.com/artists/123e4567-e89b-12d3-a456-426614174000
 ```
 
 #### Request Body:
@@ -788,26 +698,6 @@ or any of the fields you want to update.
 }
 ```
 
-#### Response Codes to Consider:
-
-- **`204`**: Artist updated successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: Artist not found.
-
-#### Responses:
-
-- **a. 204 - Artist Updated Successfully** : Same as above
-
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - Artist Not Found**: Same as above
-
 ### 11. DELETE /artists/:id - Delete an Artist
 
 - **Description**: Delete an artist by providing their artist ID.
@@ -823,16 +713,8 @@ or any of the fields you want to update.
 #### Request Endpoint:
 
 ```http
-DELETE BASE-URL/artists/:artist_id
+DELETE https://enhanced-music-library-management-api-z77c.onrender.com/artists/:artist_id
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: Artist deleted successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: Artist not found.
 
 #### Responses:
 
@@ -848,14 +730,6 @@ DELETE BASE-URL/artists/:artist_id
     "error": null
   }
   ```
-
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - Artist Not Found**: Same as above
 
 ### 12. GET /albums - Retrieve All Albums
 
@@ -879,22 +753,14 @@ DELETE BASE-URL/artists/:artist_id
 #### Request Endpoint:
 
 ```http
-GET BASE-URL/albums?limit=5&offset=0&artist_id=123e4567-e89b-12d3-a456-426614174000&hidden=false
+GET https://enhanced-music-library-management-api-z77c.onrender.com/albums?limit=5&offset=0&artist_id=123e4567-e89b-12d3-a456-426614174000&hidden=false
 ```
 
 or
 
 ```http
-GET BASE-URL/albums
+GET https://enhanced-music-library-management-api-z77c.onrender.com/albums
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: Albums fetched successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: Artist not found, not valid artist ID.
 
 #### Responses:
 
@@ -918,12 +784,6 @@ GET BASE-URL/albums
 }
 ```
 
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
 ### 13. GET /albums/:id - Retrieve an Album
 
 - **Description**: Retrieve a single album by providing its album ID.
@@ -939,21 +799,14 @@ GET BASE-URL/albums
 #### Request Endpoint:
 
 ```http
-GET BASE-URL/albums/:album_id
+GET https://enhanced-music-library-management-api-z77c.onrender.com/albums/:album_id
 ```
 
 or
 
 ```http
-GET BASE-URL/albums/123e4567-e89b-12d3-a456-426614174000
+GET https://enhanced-music-library-management-api-z77c.onrender.com/albums/123e4567-e89b-12d3-a456-426614174000
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: Album fetched successfully.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: Resource Doesn't Exist.
 
 #### Responses:
 
@@ -974,12 +827,6 @@ GET BASE-URL/albums/123e4567-e89b-12d3-a456-426614174000
 }
 ```
 
-- **b. 401 - Unauthorized Access** : Same as above
-
-- **c. 403 - Forbidden Access** : Same as above
-
-- **d. 404 - Resource Doesn't Exist**: Same as above
-
 ### 14. POST /albums/add-album - Add a new Album
 
 - **Description**: Add a new album to the system.
@@ -995,7 +842,7 @@ GET BASE-URL/albums/123e4567-e89b-12d3-a456-426614174000
 #### Request Endpoint:
 
 ```http
-POST BASE-URL/albums/add-album
+POST https://enhanced-music-library-management-api-z77c.onrender.com/albums/add-album
 ```
 
 #### Request Body:
@@ -1008,14 +855,6 @@ POST BASE-URL/albums/add-album
   "hidden": false
 }
 ```
-
-#### Response Codes to Consider:
-
-- **`201`**: Album created successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: Resource Doesn't Exist.
 
 #### Responses:
 
@@ -1030,14 +869,6 @@ POST BASE-URL/albums/add-album
 }
 ```
 
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - Resource Doesn't Exist**: Same as above
-
 ### 15. PUT /albums/:id - Update an Album
 
 - **Description**: Update an album by providing its album ID, details such as name, year, and visibility(hidden).
@@ -1051,13 +882,13 @@ POST BASE-URL/albums/add-album
 #### Request Endpoint:
 
 ```http
-PUT BASE-URL/albums/:album_id
+PUT https://enhanced-music-library-management-api-z77c.onrender.com/albums/:album_id
 ```
 
 or
 
 ```http
-PUT BASE-URL/albums/123e4567-e89b-12d3-a456-426614174000
+PUT https://enhanced-music-library-management-api-z77c.onrender.com/albums/123e4567-e89b-12d3-a456-426614174000
 ```
 
 #### Request Body:
@@ -1078,26 +909,6 @@ or any of the fields you want to update.
 }
 ```
 
-#### Response Codes to Consider:
-
-- **`204`**: Album updated successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: Resource Doesn't Exist.
-
-#### Responses:
-
-- **a. 204 - Album Updated Successfully** : Same as above
-
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - Resource Doesn't Exist**: Same as above
-
 ### 16. DELETE /albums/:id - Delete an Album
 
 - **Description**: Delete an album by providing its album ID.
@@ -1114,23 +925,15 @@ or any of the fields you want to update.
 
 ```http
 
-DELETE BASE-URL/albums/:album_id
+DELETE https://enhanced-music-library-management-api-z77c.onrender.com/albums/:album_id
 ```
 
 or
 
 ```http
 
-DELETE BASE-URL/albums/123e4567-e89b-12d3-a456-426614174000
+DELETE https://enhanced-music-library-management-api-z77c.onrender.com/albums/123e4567-e89b-12d3-a456-426614174000
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: Album deleted successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: Resource Doesn't Exist.
 
 #### Responses:
 
@@ -1144,14 +947,6 @@ DELETE BASE-URL/albums/123e4567-e89b-12d3-a456-426614174000
   "error": null
 }
 ```
-
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - Resource Doesn't Exist**: Same as above
 
 ### 17. GET /tracks - Retrieve All Tracks
 
@@ -1176,22 +971,14 @@ DELETE BASE-URL/albums/123e4567-e89b-12d3-a456-426614174000
 #### Request Endpoint:
 
 ```http
-GET BASE-URL/tracks?limit=5&offset=0&artist_id=123e4567-e89b-12d3-a456-426614174000&album_id=123e4567-e89b-12d3-a456-426614174000&hidden=false
+GET https://enhanced-music-library-management-api-z77c.onrender.com/tracks?limit=5&offset=0&artist_id=123e4567-e89b-12d3-a456-426614174000&album_id=123e4567-e89b-12d3-a456-426614174000&hidden=false
 ```
 
 or
 
 ```http
-GET BASE-URL/tracks
+GET https://enhanced-music-library-management-api-z77c.onrender.com/tracks
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: Tracks fetched successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: Resource Doesn't Exist.
 
 #### Responses:
 
@@ -1216,19 +1003,9 @@ GET BASE-URL/tracks
 }
 ```
 
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - Resource Doesn't Exist**: Same as above
-
 ### 18. GET /tracks/:id - Retrieve a Track
 
 - **Description**: Retrieve a single track by providing its track ID.
-
-#### Request Headers:
 
 #### Request Headers:
 
@@ -1241,22 +1018,14 @@ GET BASE-URL/tracks
 #### Request Endpoint:
 
 ```http
-GET BASE-URL/tracks/:track_id
+GET https://enhanced-music-library-management-api-z77c.onrender.com/tracks/:track_id
 ```
 
 or
 
 ```http
-GET BASE-URL/tracks/123e4567-e89b-12d3-a456-426614174000
+GET https://enhanced-music-library-management-api-z77c.onrender.com/tracks/123e4567-e89b-12d3-a456-426614174000
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: Track fetched successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: Resource Doesn't Exist.
 
 #### Responses:
 
@@ -1278,14 +1047,6 @@ GET BASE-URL/tracks/123e4567-e89b-12d3-a456-426614174000
 }
 ```
 
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - Resource Doesn't Exist**: Same as above
-
 ### 19. POST /tracks/add-track - Add a new Track
 
 - **Description**: Add a new track to the system.
@@ -1301,7 +1062,7 @@ GET BASE-URL/tracks/123e4567-e89b-12d3-a456-426614174000
 #### Request Endpoint:
 
 ```http
-POST BASE-URL/tracks/add-track
+POST https://enhanced-music-library-management-api-z77c.onrender.com/tracks/add-track
 ```
 
 #### Request Body:
@@ -1316,14 +1077,6 @@ POST BASE-URL/tracks/add-track
 }
 ```
 
-#### Response Codes to Consider:
-
-- **`201`**: Track created successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: Resource Doesn't Exist.
-
 #### Responses:
 
 - **a. 201 - Track Created Successfully**
@@ -1336,14 +1089,6 @@ POST BASE-URL/tracks/add-track
   "error": null
 }
 ```
-
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - Resource Doesn't Exist**: Same as above
 
 ### 20. PUT /tracks/:id - Update a Track
 
@@ -1358,13 +1103,13 @@ POST BASE-URL/tracks/add-track
 #### Request Endpoint:
 
 ```http
-PUT BASE-URL/tracks/:track_id
+PUT https://enhanced-music-library-management-api-z77c.onrender.com/tracks/:track_id
 ```
 
 or
 
 ```http
-PUT BASE-URL/tracks/123e4567-e89b-12d3-a456-426614174000
+PUT https://enhanced-music-library-management-api-z77c.onrender.com/tracks/123e4567-e89b-12d3-a456-426614174000
 ```
 
 #### Request Body:
@@ -1385,30 +1130,6 @@ or any of the fields you want to update.
 }
 ```
 
-#### Response Codes to Consider:
-
-- **`204`**: Track updated successfully.
-
-- **`400`**: Bad Request.
-
-- **`401`**: Unauthorized Access.
-
-- **`403`**: Forbidden Access.
-
-- **`404`**: Resource Doesn't Exist.
-
-#### Responses:
-
-- **a. 204 - Track Updated Successfully** : Same as above
-
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - Resource Doesn't Exist**: Same as above
-
 ### 21. DELETE /tracks/:id - Delete a Track
 
 - **Description**: Delete a track by providing its track ID.
@@ -1425,26 +1146,14 @@ or any of the fields you want to update.
 
 ```http
 
-DELETE BASE-URL/tracks/:track_id
+DELETE https://enhanced-music-library-management-api-z77c.onrender.com/tracks/:track_id
 ```
 
 or
 
 ```http
-DELETE BASE-URL/tracks/123e4567-e89b-12d3-a456-426614174000
+DELETE https://enhanced-music-library-management-api-z77c.onrender.com/tracks/123e4567-e89b-12d3-a456-426614174000
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: Track deleted successfully.
-
-- **`400`**: Bad Request.
-
-- **`401`**: Unauthorized Access.
-
-- **`403`**: Forbidden Access.
-
-- **`404`**: Resource Doesn't Exist.
 
 #### Responses:
 
@@ -1458,14 +1167,6 @@ DELETE BASE-URL/tracks/123e4567-e89b-12d3-a456-426614174000
   "error": null
 }
 ```
-
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - Resource Doesn't Exist**: Same as above
 
 ### 22. GET /favorites/:category - Retrieve Favorites
 
@@ -1488,21 +1189,14 @@ DELETE BASE-URL/tracks/123e4567-e89b-12d3-a456-426614174000
 #### Request Endpoint:
 
 ```http
-GET BASE-URL/favorites/:category?limit=5&offset=0
+GET https://enhanced-music-library-management-api-z77c.onrender.com/favorites/:category?limit=5&offset=0
 ```
 
 or
 
 ```http
-GET BASE-URL/favorites/artist
+GET https://enhanced-music-library-management-api-z77c.onrender.com/favorites/artist
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: Favorites fetched successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
 
 #### Responses:
 
@@ -1526,12 +1220,6 @@ GET BASE-URL/favorites/artist
 }
 ```
 
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
 ### 23. POST /favorites/add-favorite - Add a Favorite
 
 - **Description**: Add a new favorite item to the user's list.
@@ -1547,7 +1235,7 @@ GET BASE-URL/favorites/artist
 #### Request Endpoint:
 
 ```http
-POST BASE-URL/favorites/add-favorite
+POST https://enhanced-music-library-management-api-z77c.onrender.com/favorites/add-favorite
 ```
 
 #### Request Body:
@@ -1558,14 +1246,6 @@ POST BASE-URL/favorites/add-favorite
   "item_id": "123e4567-e89b-12d3-a456-426614174000" // item_id based on category type (artist_id, album_id, track_id)
 }
 ```
-
-#### Response Codes to Consider:
-
-- **`201`**: Favorite added successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
-- **`403`**: Forbidden Access.
-- **`404`**: Resource Doesn't Exist.
 
 #### Responses:
 
@@ -1579,14 +1259,6 @@ POST BASE-URL/favorites/add-favorite
   "error": null
 }
 ```
-
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - Resource Doesn't Exist**: Same as above
 
 ### 24. DELETE /favorites/remove-favorite/:id - Remove a Favorite
 
@@ -1603,20 +1275,14 @@ POST BASE-URL/favorites/add-favorite
 #### Request Endpoint:
 
 ```http
-DELETE BASE-URL/favorites/remove-favorite/:favorite_id
+DELETE https://enhanced-music-library-management-api-z77c.onrender.com/favorites/remove-favorite/:favorite_id
 ```
 
 or
 
 ```http
-DELETE BASE-URL/favorites/remove-favorite/123e4567-e89b-12d3-a456-426614174000
+DELETE https://enhanced-music-library-management-api-z77c.onrender.com/favorites/remove-favorite/123e4567-e89b-12d3-a456-426614174000
 ```
-
-#### Response Codes to Consider:
-
-- **`200`**: Favorite removed successfully.
-- **`400`**: Bad Request.
-- **`401`**: Unauthorized Access.
 
 #### Responses:
 
@@ -1630,11 +1296,3 @@ DELETE BASE-URL/favorites/remove-favorite/123e4567-e89b-12d3-a456-426614174000
   "error": null
 }
 ```
-
-- **b. 400 - Bad Request** : Same as above
-
-- **c. 401 - Unauthorized Access** : Same as above
-
-- **d. 403 - Forbidden Access** : Same as above
-
-- **e. 404 - Resource Doesn't Exist**: Same as above
