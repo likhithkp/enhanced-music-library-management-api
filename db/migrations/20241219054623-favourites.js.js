@@ -14,7 +14,10 @@ module.exports = {
       item_id: {
         type: DataTypes.UUID,
         allowNull: false,
-        unique: true,
+      },
+      user_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
       },
       created_at: {
         type: DataTypes.DATE,

@@ -13,7 +13,10 @@ module.exports = (sequelize, DataTypes) => {
         item_id: {
             type: DataTypes.UUID,
             allowNull: false,
-            unique: true,
+        },
+        user_id: {
+            type: DataTypes.UUID,
+            allowNull: false,
         },
     }, {
         timestamps: true,
@@ -37,8 +40,12 @@ module.exports = (sequelize, DataTypes) => {
             constraints: false,
             as: 'track',
         });
+        Favourites.belongsTo(models.users, {
+            foreignKey: 'user_id',
+            targetKey: 'user_id',
+            onDelete: 'CASCADE'
+        });
     };
-
 
     return Favourites;
 };

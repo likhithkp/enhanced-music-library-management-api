@@ -1,9 +1,10 @@
 const { getFavourite } = require("../../services/favourites/favouriteServices");
 
 const getFavourites = async (req, res) => {
+    const {user_id} = req;
     try {
         const { category } = req.params
-        const favourites = await getFavourite(category);
+        const favourites = await getFavourite(category, user_id);
         return res.status(200).json({
             "status": 200,
             "data": favourites || [],

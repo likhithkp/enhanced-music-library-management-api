@@ -3,6 +3,7 @@ const { getFavourite, deleteFavouriteById } = require("../../services/favourites
 const deleteFavourites = async (req, res) => {
     try {
         const { id } = req.params;
+        const { user_id } = req;
 
         if (!id) {
             return res.status(400).json({
@@ -23,7 +24,7 @@ const deleteFavourites = async (req, res) => {
             })
         }
 
-        const deletedTrack = await deleteFavouriteById({ favorite_id: id })
+        const deletedTrack = await deleteFavouriteById({ favorite_id: id, user_id })
         if (deletedTrack) {
             return res.status(200).json({
                 "status": 200,

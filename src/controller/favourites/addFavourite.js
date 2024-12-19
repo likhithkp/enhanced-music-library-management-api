@@ -3,6 +3,7 @@ const { createFavourite, getFavourite } = require("../../services/favourites/fav
 const addFavourite = async (req, res) => {
     try {
         const { category, item_id } = req.body;
+        const { user_id } = req;
 
         if (
             category === undefined ||
@@ -16,9 +17,8 @@ const addFavourite = async (req, res) => {
             });
         }
 
-        const favouriteExists = await getFavourite(category);
+        const favouriteExists = await getFavourite(category, user_id);
         const existingFavourite = favouriteExists && favouriteExists?.find(favourite => favourite?.item_id === item_id);
-
         if (existingFavourite !== undefined) {
             return res.status(400).json({
                 status: 400,
@@ -28,7 +28,7 @@ const addFavourite = async (req, res) => {
             });
         }
 
-        const newFavourite = await createFavourite({ category, item_id });
+        const newFavourite = await createFavourite({ category, item_id, user_id });
         if (newFavourite) {
             return res.status(201).json({
                 "status": 201,

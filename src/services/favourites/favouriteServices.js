@@ -1,6 +1,7 @@
 const { models } = require("../../../db");
 
 async function createFavourite(dataToInsert) {
+    console.log("Data being inserted:", dataToInsert);
     try {
         return await models.favourites.create(dataToInsert);
     } catch (error) {
@@ -11,7 +12,7 @@ async function createFavourite(dataToInsert) {
     }
 }
 
-async function getFavourite(category) {
+async function getFavourite(category, user_id) {
     try {
         const categoryMapping = {
             artist: { model: models.artists, alias: 'artist' },
@@ -34,7 +35,7 @@ async function getFavourite(category) {
                 },
             ],
             attributes: ["favorite_id", "category", "item_id", "created_at"],
-            where: { category },
+            where: { category, user_id },
         });
 
         if (!favourites.length) {
