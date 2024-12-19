@@ -28,7 +28,7 @@ const signupUserController = async (req, res) => {
 
         // Get all users and assign the role to the new user
         const users = await getAllUsers();
-        const existingAdmin = user && user?.find(user => user?.role === 'Admin');
+        const existingAdmin = users && users?.find(user => user?.role === 'Admin');
 
         if (existingAdmin !== undefined) {
             return res.status(400).json({
