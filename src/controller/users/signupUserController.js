@@ -28,6 +28,17 @@ const signupUserController = async (req, res) => {
 
         // Get all users and assign the role to the new user
         const users = await getAllUsers();
+        const existingAdmin = user && user?.find(user => user?.role === 'Admin');
+
+        if (existingAdmin !== undefined) {
+            return res.status(400).json({
+                status: 400,
+                data: null,
+                message: "Bad Request, Admin already exists",
+                error: null,
+            });
+        }
+
         const role = users.length === 0 ? "Admin" : "Viewer"; // Assign Admin if no users exist
 
         // Sign up the user
