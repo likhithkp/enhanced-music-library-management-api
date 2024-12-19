@@ -19,7 +19,7 @@ const updateTrack = async (req, res) => {
             return res.status(404).json({
                 "status": 404,
                 "data": null,
-                "message": "Track Not Found",
+                "message": "Track doesnt exist",
                 "error": null
             });
         }
