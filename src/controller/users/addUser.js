@@ -23,7 +23,7 @@ const addUser = async (req, res) => {
         }
 
         const users = await getAllUsers();
-        const existingAdmin = users && users?.find(user => user?.role === 'Admin');
+        const existingAdmin = (role === 'Admin' && users?.find(user => user?.role === 'Admin'));
 
         if (existingAdmin !== undefined) {
             return res.status(400).json({
