@@ -1,4 +1,5 @@
 const { getAlbumById } = require("../../services/albums/albumServices");
+const { getArtist } = require("../../services/artists/artistServices");
 const { createTrack, getTrack } = require("../../services/tracks/trackServices");
 
 const addTrack = async (req, res) => {
