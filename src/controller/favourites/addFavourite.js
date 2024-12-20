@@ -1,4 +1,4 @@
-const { createFavourite, getFavourite } = require("../../services/favourites/favouriteServices");
+const { createFavourite, getFavourite, validateItemIdInCategory } = require("../../services/favourites/favouriteServices");
 
 const addFavourite = async (req, res) => {
     try {
@@ -14,6 +14,16 @@ const addFavourite = async (req, res) => {
                 data: null,
                 message: "Bad Request",
                 error: null,
+            });
+        }
+
+        const checkItemInCategory = await validateItemIdInCategory(category, item_id)
+        if(checkItemInCategory?.error || checkItemInCategory === false){
+            return res.status(404).json({
+                "status": 404,
+                "data": null,
+                "message": "Resource Doesn't Exist",
+                "error": null
             });
         }
 

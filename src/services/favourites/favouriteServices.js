@@ -66,6 +66,38 @@ async function getFavourite(category, user_id, { limit, offset }) {
     }
 }
 
+async function validateItemIdInCategory(category, item_id) {
+    try {
+        const categoryMapping = {
+            artist: { model: models.artists, idField: "artist_id" },
+            album: { model: models.albums, idField: "album_id" },
+            track: { model: models.tracks, idField: "track_id" },
+        };
+
+        const categoryConfig = categoryMapping[category];
+
+        if(!categoryConfig){
+            return {
+                error: "Invalid category",
+            };
+        }
+
+        const { model, idField } = categoryConfig;
+
+        const itemExists = await model.findOne({
+            where: { [idField]: item_id },
+        });
+
+        return !!itemExists;
+
+    } catch (error) {
+        return {
+            message: "Error validating item in category",
+            error: error?.message,
+        };
+    }
+};
+
 async function deleteFavouriteById(data) {
     try {
         return await models.favourites.destroy({
@@ -83,4 +115,5 @@ module.exports = {
     createFavourite,
     getFavourite,
     deleteFavouriteById,
+    validateItemIdInCategory
 }
