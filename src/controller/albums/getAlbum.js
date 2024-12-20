@@ -5,7 +5,7 @@ const getAlbum = async (req, res) => {
         const { album_id } = req.params
         const album = await getAlbumById({ album_id: album_id });
 
-        if (!album) {
+        if (!album?.album_id) {
             return res.status(404).json({
                 "status": 404,
                 "data": null,
