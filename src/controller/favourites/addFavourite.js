@@ -17,7 +17,7 @@ const addFavourite = async (req, res) => {
             });
         }
 
-        const favouriteExists = await getFavourite(category, user_id);
+        const favouriteExists = await getFavourite(category, user_id, { limit: 100, offset: 0 });
         const existingFavourite = favouriteExists && favouriteExists?.find(favourite => favourite?.item_id === item_id);
         if (existingFavourite !== undefined) {
             return res.status(400).json({
