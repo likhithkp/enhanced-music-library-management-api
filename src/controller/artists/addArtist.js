@@ -6,7 +6,7 @@ const addArtist = async (req, res) => {
         const { name, grammy, hidden } = req.body;
 
         // Validate the required params
-        if (!(name || grammy || hidden)) {
+        if (name === undefined || grammy === undefined || hidden === undefined) {
             return res.status(400).json({
                 "status": 400,
                 "data": null,
