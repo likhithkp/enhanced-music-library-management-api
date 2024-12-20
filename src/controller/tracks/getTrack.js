@@ -5,7 +5,7 @@ const fetchTrack = async (req, res) => {
         const { track_id } = req.params
         const track = await getTrack({ track_id: track_id });
 
-        if (!track) {
+        if (!track?.track_id) {
             return res.status(404).json({
                 "status": 404,
                 "data": null,

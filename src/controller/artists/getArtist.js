@@ -5,7 +5,7 @@ const fetchArtist = async (req, res) => {
         const { artist_id } = req.params
         const artist = await getArtist({ artist_id: artist_id });
 
-        if (!artist) {
+        if (!artist?.artist_id) {
             return res.status(404).json({
                 "status": 404,
                 "data": null,

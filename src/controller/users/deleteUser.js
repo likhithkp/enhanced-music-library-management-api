@@ -14,7 +14,7 @@ const deleteUser = async (req, res) => {
         }
 
         const user = await getUser({ user_id: user_id });
-        if (!user) {
+        if (!user?.user_id) {
             return res.status(404).json({
                 "status": 404,
                 "data": null,

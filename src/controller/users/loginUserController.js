@@ -27,7 +27,7 @@ const loginUserController = async (req, res) => {
             })
         }
 
-        if (!user) {
+        if (!user?.user_id) {
             return res.status(404).json({
                 "status": 404,
                 "data": null,
