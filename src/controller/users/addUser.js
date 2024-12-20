@@ -35,13 +35,20 @@ const addUser = async (req, res) => {
         }
 
         const newUser = await signup({ email, password, role });
-        if (newUser) {
+        if (!newUser.error) {
             return res.status(201).json({
                 "status": 201,
                 "data": null,
                 "message": "User created successfully.",
                 "error": null
-            })
+            });
+        } else {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad Request",
+                "error": null
+            });
         }
     }
     catch (error) {

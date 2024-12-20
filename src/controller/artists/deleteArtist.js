@@ -24,13 +24,20 @@ const deleteArtist = async (req, res) => {
         }
 
         const deletedArtist = await deleteArtistById({ artist_id: artist_id })
-        if (deletedArtist) {
+        if (!deletedArtist.error) {
             return res.status(200).json({
                 "status": 200,
                 "data": null,
                 "message": `Artist:${artist?.name} deleted successfully.`,
                 "error": null
-            })
+            });
+        } else {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad Request",
+                "error": null
+            });
         }
     }
     catch (error) {

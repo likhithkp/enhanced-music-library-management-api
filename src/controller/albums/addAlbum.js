@@ -30,11 +30,18 @@ const addAlbum = async (req, res) => {
         }
 
         const newAlbum = await createAlbum({ artist_id, name, year, hidden });
-        if (newAlbum) {
+        if (!newAlbum.error) {
             return res.status(201).json({
                 "status": 201,
                 "data": null,
                 "message": "Album created successfully.",
+                "error": null
+            });
+        } else {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad Request",
                 "error": null
             });
         }

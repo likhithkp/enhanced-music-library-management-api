@@ -25,13 +25,20 @@ const deleteFavourites = async (req, res) => {
         }
 
         const deletedTrack = await deleteFavouriteById({ favorite_id: id, user_id })
-        if (deletedTrack) {
-            return res.status(200).json({
-                "status": 200,
+        if (!deletedTrack.error) {
+            return res.status(201).json({
+                "status": 201,
                 "data": null,
                 "message": `Favourite removed successfully.`,
                 "error": null
-            })
+            });
+        } else {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad Request",
+                "error": null
+            });
         }
     }
     catch (error) {

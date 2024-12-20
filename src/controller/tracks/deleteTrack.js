@@ -24,11 +24,18 @@ const deleteTrack = async (req, res) => {
         }
 
         const deletedTrack = await deleteTrackById({ track_id: track_id })
-        if (deletedTrack) {
-            return res.status(200).json({
-                "status": 200,
+        if (!deletedTrack.error) {
+            return res.status(201).json({
+                "status": 201,
                 "data": null,
                 "message": `Track:${track?.name} deleted successfully.`,
+                "error": null
+            })
+        } else {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad request",
                 "error": null
             })
         }

@@ -29,11 +29,18 @@ const addFavourite = async (req, res) => {
         }
 
         const newFavourite = await createFavourite({ category, item_id, user_id });
-        if (newFavourite) {
+        if (!newFavourite.error) {
             return res.status(201).json({
                 "status": 201,
                 "data": null,
                 "message": "Favourite created successfully.",
+                "error": null
+            });
+        } else {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad Request",
                 "error": null
             });
         }

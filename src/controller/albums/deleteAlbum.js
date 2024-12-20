@@ -24,13 +24,20 @@ const deleteAlbum = async (req, res) => {
         }
 
         const deleteAlbum = await deleteAlbumById({ album_id: album_id })
-        if (deleteAlbum) {
+        if (!deleteAlbum.error) {
             return res.status(200).json({
                 "status": 200,
                 "data": null,
                 "message": `Album:${album?.name} deleted successfully.`,
                 "error": null
-            })
+            });
+        } else {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad Request",
+                "error": null
+            });
         }
     }
     catch (error) {

@@ -27,7 +27,6 @@ const addArtist = async (req, res) => {
         }
 
         const newArtist = await createArtist({ name, grammy, hidden });
-        console.log(newArtist)
         if (!newArtist.error) {
             return res.status(201).json({
                 "status": 201,
