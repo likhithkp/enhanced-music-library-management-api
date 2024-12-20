@@ -4,7 +4,7 @@ const deleteTrack = async (req, res) => {
     try {
         const { track_id } = req.params;
 
-        if (!track_id) {
+        if (track_id === undefined) {
             return res.status(400).json({
                 "status": 400,
                 "data": null,
@@ -14,7 +14,7 @@ const deleteTrack = async (req, res) => {
         }
 
         const track = await getTrack({ track_id: track_id });
-        if (!track) {
+        if (!track?.track_id) {
             return res.status(404).json({
                 "status": 404,
                 "data": null,

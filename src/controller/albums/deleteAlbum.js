@@ -4,7 +4,7 @@ const deleteAlbum = async (req, res) => {
     try {
         const { album_id } = req.params;
 
-        if (!album_id) {
+        if (album_id === undefined) {
             return res.status(400).json({
                 "status": 400,
                 "data": null,
@@ -14,7 +14,7 @@ const deleteAlbum = async (req, res) => {
         }
 
         const album = await getAlbumById({ album_id: album_id });
-        if (!album) {
+        if (!album?.album_id) {
             return res.status(404).json({
                 "status": 404,
                 "data": null,

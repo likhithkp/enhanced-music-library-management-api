@@ -4,7 +4,7 @@ const deleteArtist = async (req, res) => {
     try {
         const { artist_id } = req.params;
 
-        if (!artist_id) {
+        if (artist_id === undefined) {
             return res.status(400).json({
                 "status": 400,
                 "data": null,
@@ -14,7 +14,7 @@ const deleteArtist = async (req, res) => {
         }
 
         const artist = await getArtist({ artist_id: artist_id });
-        if (!artist) {
+        if (!artist?.artist_id) {
             return res.status(404).json({
                 "status": 404,
                 "data": null,

@@ -5,7 +5,7 @@ const deleteFavourites = async (req, res) => {
         const { id } = req.params;
         const { user_id } = req;
 
-        if (!id) {
+        if (id === undefined) {
             return res.status(400).json({
                 "status": 400,
                 "data": null,
@@ -14,8 +14,8 @@ const deleteFavourites = async (req, res) => {
             })
         }
 
-        const track = await getFavourite({ id: id });
-        if (!track) {
+        const favorite = await getFavourite({ id: id });
+        if (favorite?.favorite_id) {
             return res.status(404).json({
                 "status": 404,
                 "data": null,
