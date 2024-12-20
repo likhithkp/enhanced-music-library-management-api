@@ -12,6 +12,20 @@ async function createFavourite(dataToInsert) {
     }
 }
 
+async function getFavouriteByUserId(user_id){
+    try {
+        const favorite = await models.favourites.findOne({
+            where: {user_id}
+        })
+        return favorite;
+    } catch (error) {
+        return {
+            message: "Error fetching favourite by user_id.",
+            error: error.message,
+        };
+    }
+}
+
 async function getFavourite(category, user_id, { limit, offset }) {
     try {
         const categoryMapping = {
@@ -115,5 +129,6 @@ module.exports = {
     createFavourite,
     getFavourite,
     deleteFavouriteById,
-    validateItemIdInCategory
+    validateItemIdInCategory,
+    getFavouriteByUserId
 }

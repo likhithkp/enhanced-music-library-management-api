@@ -1,4 +1,4 @@
-const { getFavourite, deleteFavouriteById } = require("../../services/favourites/favouriteServices");
+const { deleteFavouriteById, getFavouriteByUserId } = require("../../services/favourites/favouriteServices");
 
 const deleteFavourites = async (req, res) => {
     try {
@@ -14,8 +14,8 @@ const deleteFavourites = async (req, res) => {
             })
         }
 
-        const favorite = await getFavourite({ id: id }, { limit: 5, offset: 0 });
-        if (favorite?.favorite_id) {
+        const favorite = await getFavouriteByUserId(user_id);
+        if (!favorite?.favorite_id) {
             return res.status(404).json({
                 "status": 404,
                 "data": null,
