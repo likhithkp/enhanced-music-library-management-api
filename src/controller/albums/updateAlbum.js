@@ -14,8 +14,8 @@ const updateAlbum = async (req, res) => {
             });
         }
 
-        const artist = await getAlbumById({ album_id: album_id });
-        if (!artist) {
+        const album = await getAlbumById({ album_id: album_id });
+        if (!album?.album_id) {
             return res.status(404).json({
                 "status": 404,
                 "data": null,
