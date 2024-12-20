@@ -1,3 +1,4 @@
+const { getAlbumById } = require("../../services/albums/albumServices");
 const { createTrack, getTrack } = require("../../services/tracks/trackServices");
 
 const addTrack = async (req, res) => {
@@ -25,6 +26,26 @@ const addTrack = async (req, res) => {
                 "status": 409,
                 "data": null,
                 "message": "Track already exists.",
+                "error": null
+            });
+        }
+
+        const artist = await getArtist({ artist_id: artist_id });
+        if (!artist?.artist_id) {
+            return res.status(404).json({
+                "status": 404,
+                "data": null,
+                "message": "Resource Doesn't Exist",
+                "error": null
+            });
+        }
+
+        const album = await getAlbumById({ artist_id: artist_id });
+        if (!album?.album_id) {
+            return res.status(404).json({
+                "status": 404,
+                "data": null,
+                "message": "Resource Doesn't Exist",
                 "error": null
             });
         }
