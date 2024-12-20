@@ -16,7 +16,7 @@ const updatePassword = async (req, res) => {
             })
         }
 
-        if (!old_password || !new_password) {
+        if (old_password === undefined || new_password === undefined) {
             return res.status(400).json({
                 "status": 400,
                 "data": null,

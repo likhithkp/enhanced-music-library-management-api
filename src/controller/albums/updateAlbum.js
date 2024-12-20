@@ -5,7 +5,7 @@ const updateAlbum = async (req, res) => {
         const { album_id } = req.params
         const { name, year, hidden } = req.body;
 
-        if (!album_id) {
+        if (name === undefined && year === undefined && hidden === undefined) {
             return res.status(400).json({
                 "status": 400,
                 "data": null,

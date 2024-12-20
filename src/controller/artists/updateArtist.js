@@ -5,7 +5,7 @@ const updateArtist = async (req, res) => {
         const { artist_id } = req.params
         const { name, grammy, hidden } = req.body;
 
-        if (!artist_id) {
+        if (name === undefined && grammy === undefined && hidden === undefined) {
             return res.status(400).json({
                 "status": 400,
                 "data": null,

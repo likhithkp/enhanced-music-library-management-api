@@ -5,7 +5,7 @@ const updateTrack = async (req, res) => {
         const { track_id } = req.params
         const { name, duration, hidden } = req.body;
 
-        if (!track_id) {
+        if (name === undefined && duration === undefined && hidden === undefined) {
             return res.status(400).json({
                 "status": 400,
                 "data": null,
