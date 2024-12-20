@@ -14,7 +14,7 @@ const deleteFavourites = async (req, res) => {
             })
         }
 
-        const favorite = await getFavourite({ id: id }, { limit: 5, offset });
+        const favorite = await getFavourite({ id: id }, { limit: 5, offset: 0 });
         if (favorite?.favorite_id) {
             return res.status(404).json({
                 "status": 404,
