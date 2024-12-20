@@ -10,13 +10,21 @@ const fetchAllUsers = async (req, res) => {
         };
 
         const users = await getAllUsers(pagination, role);
-
-        return res.status(200).json({
-            status: 200,
-            data: users || [],
-            message: "Users retrieved successfully.",
-            error: null,
-        });
+        if(!users?.error){
+            return res.status(200).json({
+                status: 200,
+                data: users || [],
+                message: "Users retrieved successfully.",
+                error: null,
+            });
+        } else {
+            return res.status(400).json({
+                status: 400,
+                data: null,
+                message: "Bas request",
+                error: null,
+            });
+        }
     } catch (error) {
         res.status(500).json({
             error: "Error fetching users",
