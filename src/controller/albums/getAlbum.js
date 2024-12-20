@@ -14,7 +14,7 @@ const getAlbum = async (req, res) => {
             })
         }
 
-        if (!album?.error) {
+        if (album?.error) {
             return res.status(400).json({
                 "status": 400,
                 "data": null,
