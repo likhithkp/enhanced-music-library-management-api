@@ -29,7 +29,15 @@ const updateTrack = async (req, res) => {
         if (duration !== undefined) dataToInsert.duration = duration
         if (hidden !== undefined) dataToInsert.hidden = hidden
 
-        await updateTrackInfo(track_id, dataToInsert);
+        const updatedTrack = await updateTrackInfo(track_id, dataToInsert);
+        if (updatedTrack?.error) {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad request",
+                "error": null
+            });
+        }
         return res.status(204).json();
     } catch (error) {
         res.status(500).json({ error: "Error updating track", details: error?.message });

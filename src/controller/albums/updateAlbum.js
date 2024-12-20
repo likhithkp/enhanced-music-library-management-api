@@ -29,7 +29,15 @@ const updateAlbum = async (req, res) => {
         if (year !== undefined) dataToInsert.year = year
         if (hidden !== undefined) dataToInsert.hidden = hidden
 
-        await updateAlbumInfo(album_id, dataToInsert);
+        const updatedAlbum = await updateAlbumInfo(album_id, dataToInsert);
+        if (updatedAlbum?.error) {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad request",
+                "error": null
+            });
+        }
         return res.status(204).json();
     } catch (error) {
         res.status(500).json({ error: "Error updating album", details: error?.message });

@@ -34,7 +34,15 @@ const updatePassword = async (req, res) => {
             })
         }
 
-        await updateUserPassword({ user_id: user?.user_id, new_password })
+        const updatedUserInfo = await updateUserPassword({ user_id: user?.user_id, new_password })
+        if (updatedUserInfo?.error) {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad request",
+                "error": null
+            });
+        }
         return res.status(204).json()
     }
     catch (error) {

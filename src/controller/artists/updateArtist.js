@@ -29,7 +29,15 @@ const updateArtist = async (req, res) => {
         if (grammy !== undefined) dataToInsert.grammy = grammy
         if (hidden !== undefined) dataToInsert.hidden = hidden
 
-        await updateArtistInfo(artist_id, dataToInsert);
+        const updatedArtist = await updateArtistInfo(artist_id, dataToInsert);
+        if (updatedArtist?.error) {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad request",
+                "error": null
+            });
+        }
         return res.status(204).json();
     } catch (error) {
         res.status(500).json({ error: "Error updating artist", details: error?.message });
