@@ -12,13 +12,21 @@ const getFavourites = async (req, res) => {
         };
 
         const favourites = await getFavourite(category, user_id, pagination);
-
-        return res.status(200).json({
-            status: 200,
-            data: favourites || [],
-            message: "Favorites retrieved successfully.",
-            error: null,
-        });
+        if (!favourites.error) {
+            return res.status(200).json({
+                status: 200,
+                data: favourites || [],
+                message: "Favorites retrieved successfully.",
+                error: null,
+            });
+        } else {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad request",
+                "error": null
+            })
+        }
     } catch (error) {
         res.status(500).json({
             message: "An error occurred while retrieving favourites.",

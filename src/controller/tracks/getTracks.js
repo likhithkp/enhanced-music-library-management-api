@@ -10,13 +10,21 @@ const fetchAllTracks = async (req, res) => {
         };
 
         const tracks = await getAllTracks(pagination, { artist_id, album_id, hidden });
-
-        return res.status(200).json({
-            status: 200,
-            data: tracks || [],
-            message: "Tracks retrieved successfully.",
-            error: null,
-        });
+        if (!tracks.error) {
+            return res.status(200).json({
+                status: 200,
+                data: tracks || [],
+                message: "Tracks retrieved successfully.",
+                error: null,
+            });
+        } else {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad request",
+                "error": null
+            })
+        }
     } catch (error) {
         res.status(500).json({
             error: "Error while fetching all tracks",

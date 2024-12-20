@@ -10,13 +10,21 @@ const fetchAllArtists = async (req, res) => {
         };
 
         const artists = await getAllArtists(pagination, { grammy, hidden });
-
-        return res.status(200).json({
-            status: 200,
-            data: artists || [],
-            message: "Artists retrieved successfully.",
-            error: null,
-        });
+        if (!artists.error) {
+            return res.status(200).json({
+                "status": 200,
+                "data": null,
+                message: "Artists retrieved successfully.",
+                "error": null
+            })
+        } else {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad request",
+                "error": null
+            })
+        }
     } catch (error) {
         res.status(500).json({
             error: "Error fetching all artists",
