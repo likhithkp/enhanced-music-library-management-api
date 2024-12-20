@@ -24,11 +24,18 @@ const deleteUser = async (req, res) => {
         }
 
         const deletedUser = await deleteUserById({ user_id: user_id })
-        if (deletedUser) {
+        if (!deletedUser.error) {
             return res.status(200).json({
                 "status": 200,
                 "data": null,
                 "message": "User deleted successfully.",
+                "error": null
+            })
+        } else {
+            return res.status(400).json({
+                "status": 400,
+                "data": null,
+                "message": "Bad request",
                 "error": null
             })
         }
