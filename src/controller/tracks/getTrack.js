@@ -8,13 +8,13 @@ const fetchTrack = async (req, res) => {
         if (!track) {
             return res.status(404).json({
                 "status": 404,
-                "data": track,
+                "data": null,
                 "message": "Track not found.",
                 "error": null
             })
         }
 
-        if (track.error) {
+        if (track?.error) {
             return res.status(400).json({
                 "status": 400,
                 "data": null,

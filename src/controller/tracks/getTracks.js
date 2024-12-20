@@ -10,7 +10,7 @@ const fetchAllTracks = async (req, res) => {
         };
 
         const tracks = await getAllTracks(pagination, { artist_id, album_id, hidden });
-        if (!tracks.error) {
+        if (!tracks?.error) {
             return res.status(200).json({
                 status: 200,
                 data: tracks || [],

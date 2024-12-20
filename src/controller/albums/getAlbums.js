@@ -10,11 +10,11 @@ const getAlbums = async (req, res) => {
         };
 
         const albums = await getAllAlbums(pagination, { artist_id, hidden });
-        if (!albums.error) {
+        if (!albums?.error) {
             return res.status(200).json({
                 "status": 200,
-                "data": null,
-                message: "Albums retrieved successfully.",
+                "data": albums,
+                "message": "Albums retrieved successfully.",
                 "error": null
             })
         } else {

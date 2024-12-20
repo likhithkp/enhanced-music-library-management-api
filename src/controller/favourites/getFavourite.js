@@ -12,7 +12,7 @@ const getFavourites = async (req, res) => {
         };
 
         const favourites = await getFavourite(category, user_id, pagination);
-        if (!favourites.error) {
+        if (!favourites?.error) {
             return res.status(200).json({
                 status: 200,
                 data: favourites || [],
