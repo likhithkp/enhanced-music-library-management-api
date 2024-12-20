@@ -20,7 +20,7 @@ const addTrack = async (req, res) => {
         }
 
         const track = await getTrack({ name: name });
-        if (track) {
+        if (track?.track_id) {
             return res.status(409).json({
                 "status": 409,
                 "data": null,
