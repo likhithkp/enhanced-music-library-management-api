@@ -21,7 +21,7 @@ const fetchAllUsers = async (req, res) => {
             return res.status(400).json({
                 status: 400,
                 data: null,
-                message: "Bas request",
+                message: "Bad request",
                 error: null,
             });
         }
